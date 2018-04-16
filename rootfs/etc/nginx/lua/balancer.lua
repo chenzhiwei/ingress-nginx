@@ -26,6 +26,11 @@ end
 local function balance()
   local backend_name = ngx.var.proxy_upstream_name
   local backend = backends:get(backend_name)
+
+  if not backend then
+    ngx.log(ngx.WARN, "no backend configuration found for " .. tostring(backend_name))
+  end
+
   -- lb_alg field does not exist for ingress.Backend struct for now, so lb_alg
   -- will always be round_robin
   local lb_alg = backend.lb_alg or "round_robin"
@@ -72,6 +77,11 @@ local function sync_backends()
 
   for _, new_backend in pairs(new_backends) do
     local backend = backends:get(new_backend.name)
+
+    if not backend then
+      ngx.log(ngx.WARN, "no backend configuration found for " .. tostring(new_backend.name))
+    end
+
     local backend_changed = true
 
     if backend then
