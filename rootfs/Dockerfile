@@ -18,7 +18,8 @@ CROSS_BUILD_COPY qemu-QEMUARCH-static /usr/bin/
 
 RUN clean-install \
   diffutils \
-  dumb-init
+  dumb-init \
+  openssl
 
 # Create symlinks to redirect nginx logs to stdout and stderr docker log collector
 # This only works if nginx is started with CMD or ENTRYPOINT
